@@ -9,11 +9,51 @@ var budgetController = (function() {
 // ///////////////////////// UI Controller
 var UIController = (function() {
 
-	var DOMstrings = {
+  var DOMstrings = {
+    inputType: '.add__type',
+    inputDescription: '.add__description',
+    inputValue: '.add__value',
+    inputBtn: '.add__btn',
+    incomeContainer: '.income__list',
+    expensesContainer: '.expenses__list',
+    budgetLabel: '.budget__value',
+    incomeLabel: '.budget__income--value',
+    expenseLabel: '.budget__expenses--value',
+    percentageLabel: '.budget__expenses--percentage',
+    container: '.container',
+    expensePercentLabel: '.item__percentage',
+    dateLabel: '.budget__title--month'
+  };
 
-		inputType: '.add__type',
-		inputDescription: 'add__description',
-	}
+  var formatNumber = function(number, type) {
+    var numberSplit, int, dec, type;
+
+    number = Math.abs(number);
+    number = number.toFixed(2); //returns a string 2 -> 2.00
+
+    numberSplit = number.split('.'); //returns an array of the split
+
+    int = numberSplit[0];
+
+    if(int.length > 3) {
+      int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
+    }
+
+    dec = numberSplit[1];
+
+    type === 'exp' ? sign = '-' : sign = '+';
+
+    return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec;
+
+  };
+
+  var nodeListForEach = function(list, callback) {
+    for(var i = 0; i < list.length; i++) {
+      callback(list[i], i);
+    }
+  };
+
+
 }
 
 
@@ -137,4 +177,3 @@ var Controller = (function(budgetCtrl, UICtrl) {
 })(budgetController, UIController);
 
 Controller.init();
-
