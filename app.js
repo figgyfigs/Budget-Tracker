@@ -55,6 +55,34 @@ var budgetController = (function() {
 
   };
 
+	return {
+
+    calculateBudget: function() {
+
+      // calculate total income and expenses
+      calculateTotal('exp');
+      calculateTotal('inc');
+
+      // calculate the budget: income - expenses
+      data.budget = data.totals.inc - data.totals.exp;
+
+      // calculate the percentage of income that we spent
+      if(data.totals.inc > 0) {
+        data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100);
+      } else {
+        data.percentage = -1;
+      }
+
+    },
+
+    calculatePercentages: function() {
+
+      data.allItems.exp.forEach(function(cur) {
+        cur.calcPercentage(data.totals.inc);
+      });
+    },
+
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
