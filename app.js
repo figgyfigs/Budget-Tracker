@@ -30,7 +30,30 @@ var budgetController = (function() {
     this.value = value;
   };
 
+	var calculateTotal = function(type) {
+    var sum = 0;
 
+    data.allItems[type].forEach(function(current) {
+      sum += current.value;
+    });
+
+    data.totals[type] = sum;
+
+  };
+
+  var data = {
+    allItems: {
+      exp: [],
+      inc: []
+    },
+    totals: {
+      exp: 0,
+      inc: 0
+    },
+    budget: 0,
+    percentage: -1
+
+  };
 
 }
 
