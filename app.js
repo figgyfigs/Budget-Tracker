@@ -105,6 +105,15 @@ var budgetController = (function() {
       }
     },
 
+    getBudget: function() {
+      return {
+        budget: data.budget,
+        totalInc: data.totals.inc,
+        totalExp: data.totals.exp,
+        percentage: data.percentage,
+      }
+    },
+
 
 
 
