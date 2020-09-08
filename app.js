@@ -114,6 +114,20 @@ var budgetController = (function() {
       }
     },
 
+    testing: function() {
+      console.log(data.allItems);
+    },
+
+    addItem: function(type, des, val) {
+      var newItem, id;
+
+      //create a new id
+      if(data.allItems[type].length > 0) {
+        id = data.allItems[type][data.allItems[type].length - 1].id + 1;
+      } else {
+        id = 0;
+      }
+
 
 
 
