@@ -128,10 +128,27 @@ var budgetController = (function() {
         id = 0;
       }
 
+      //create new item based on 'inc' or 'exp' type
+      if (type === 'exp') {
+        newItem = new Expense(id, des, val);
+      } else if(type === 'inc') {
+          newItem = new Income(id, des, val);
+      }
+          
+      //push it into our data structure
+      data.allItems[type].push(newItem);
+    
+    // return new element
+      return newItem;
+      },
+    };
+    
+})();
+    
 
 
 
-}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////// UI Controller
