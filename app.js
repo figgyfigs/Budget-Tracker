@@ -198,6 +198,59 @@ var UIController = (function() {
     }
   };
 
+  return {
+
+    getInput: function() {
+
+      return {
+          type: document.querySelector(DOMstrings.inputType).value, //value will either be 'inc' for + or 'exp' for -
+          description: document.querySelector(DOMstrings.inputDescription).value,
+          value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
+        };
+      },
+
+      addListItem: function(obj, type) {
+
+        var html, newHTML, element;
+        // Create HTML string with placeholder text
+
+        if(type === 'inc') {
+          element = DOMstrings.incomeContainer;
+          html = '<div class="item clearfix" id="inc-%id%"> <div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+        } else if(type === 'exp') {
+          element = DOMstrings.expensesContainer;
+          html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+        }
+
+        // Replace the placeholder text with some actual data
+        newHTML = html.replace('%id%', obj.id);
+        newHTML = newHTML.replace('%description%', obj.description);
+        newHTML = newHTML.replace('%value%', formatNumber(obj.value, type));
+
+        // Insert the HTML into the DOM
+        document.querySelector(element).insertAdjacentHTML('beforeend', newHTML);
+
+      },
+
+      deleteListItem: function(selectorID) {
+
+        var el = document.getElementById(selectorID);
+        el.parentNode.removeChild(el);
+      },
+
+      clearFields: function() {
+        var fields, fieldsArray;
+
+        fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue);
+        fieldsArray = Array.prototype.slice.call(fields);
+
+        fieldsArray.forEach(function(current, index, array) {
+          current.value = "";
+        });
+
+        fieldsArray[0].focus();
+      },
+
 
 }
 
