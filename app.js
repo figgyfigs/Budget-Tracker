@@ -246,9 +246,12 @@ var UIController = (function() {
   }
 
 
+})();
+
+
 ////////////////////////////////////////////////////////////////////
 ////////////////Global App Controller
-var Controller = (function(budgetCtrl, UICtrl) {
+var controller = (function(budgetCtrl, UICtrl) {
 
 	var setupEventListeners = function() {
 
@@ -259,7 +262,7 @@ var Controller = (function(budgetCtrl, UICtrl) {
 		document.addEventListener('keypress', function(event) {
 			if(event.keycode === 13 || event.which === 13) {
 				ctrlAddItem();
-				}
+			}
 		});
 
 		document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
@@ -267,7 +270,6 @@ var Controller = (function(budgetCtrl, UICtrl) {
     document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType);
 
 	};
-
 
 	var updateBudget = function() {
 
@@ -283,43 +285,38 @@ var Controller = (function(budgetCtrl, UICtrl) {
 
 	};
 
-	  var updatePercentages = function() {
+	var updatePercentages = function() {
 
-	    // 1. calculate percentages
-	    budgetCtrl.calculatePercentages();
+	  // 1. calculate percentages
+	  budgetCtrl.calculatePercentages();
 
+     // 2. read percentages from the budget controller
+    	var percentages = budgetCtrl.getPercentages();
 
-	   	// 2. read percentages from the budget controller
-	   	var percentages = budgetCtrl.getPercentages();
-
-
-	   	// 3. update the UI with the new percentages
-	   	UICtrl.displayPercentages(percentages);
-
+	  // 3. update the UI with the new percentages
+	  UICtrl.displayPercentages(percentages);
 	};
-
 
   var ctrlAddItem = function() {
 
-      var input, newItem;
+    var input, newItem;
     // TODO:
     //      1. Get the field input data
-      input = UICtrl.getInput();
+    input = UICtrl.getInput();
 
-      if(input.description !== "" && !isNaN(input.value) && input.value > 0) {
-    //      2. Add the item to the budget Controller
+    if(input.description !== "" && !isNaN(input.value) && input.value > 0) {
+    //2. Add the item to the budget Controller
       newItem = budgetCtrl.addItem(input.type, input.description, input.value);
-    //      3. Add the new item to the UI
-      UICtrl.addListItem(newItem, input.type);
-    //      4. Clear the fields
-      UICtrl.clearFields();
-    //      5. Calculate and update budget
-      updateBudget();
+    //3. Add the new item to the UI
+    UICtrl.addListItem(newItem, input.type);
+    //4. Clear the fields
+    UICtrl.clearFields();
+    //5. Calculate and update budget
+    updateBudget();
 
-    //      6. Calculate and update percentages
-      updatePercentages();
-
-      }
+    //6. Calculate and update percentages
+    updatePercentages();
+    }
   };
 
   var ctrlDeleteItem = function(event) {
@@ -355,7 +352,7 @@ var Controller = (function(budgetCtrl, UICtrl) {
         budget: 0,
         totalInc: 0,
         totalExp: 0,
-        percentage: -1,
+        percentage: -1
 
       });
 
@@ -365,4 +362,4 @@ var Controller = (function(budgetCtrl, UICtrl) {
 
 })(budgetController, UIController);
 
-Controller.init();
+controller.init();
