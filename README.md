@@ -1,2 +1,2 @@
 # Budget-Tracker
-Javascript project that keeps track of expenses.
+Javascript project that keeps track of expenses and income.
