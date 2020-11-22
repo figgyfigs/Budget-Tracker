@@ -38,9 +38,7 @@ var budgetController = (function() {
         data.allItems[type].forEach(function(current) {
             sum += current.value;
     });
-
         data.totals[type] = sum;
-
     };
 
     var data = {
@@ -54,10 +52,20 @@ var budgetController = (function() {
         },
         budget: 0,
         percentage: -1
-
     };
 
 	return {
+
+        addItem: function(type, des, val) {
+            var newItem, ID;
+            if(data.allItems[type].length > 0) {
+                ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
+            } else {
+                ID = 0;
+            }
+
+            //
+        },
 
         calculateBudget: function() {
 
