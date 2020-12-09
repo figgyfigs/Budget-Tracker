@@ -64,7 +64,15 @@ var budgetController = (function() {
                 ID = 0;
             }
 
-            //
+            // Create new item based on 'inc' or 'exp' type
+            if (type === 'exp') {
+              newItem = new Expense(ID, des, val);
+          } else if (type === 'inc') {
+              newItem = new Income(ID, des, val);
+          }
+          data.allItems[type].push(newItem);
+
+          return newItem;
         },
 
         calculateBudget: function() {
@@ -198,7 +206,6 @@ var UIController = (function() {
         getInput: function() {
 
             return {
-
                 type: document.querySelector(DOMstrings.inputType).value, //value will either be 'inc' for + or 'exp' for -
                 description: document.querySelector(DOMstrings.inputDescription).value,
                 value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
@@ -217,15 +224,29 @@ var UIController = (function() {
                 html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
             }
 
-            // Replace the placeholder text with some actual data
             newHTML = html.replace('%id%', obj.id);
             newHTML = newHTML.replace('%description%', obj.description);
             newHTML = newHTML.replace('%value%', formatNumber(obj.value, type));
 
-            // Insert the HTML into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHTML);
 
         },
+
+        displayBudget: function(obj) {
+          var type;
+          obj.budget > 0 ? type = 'inc' : type = 'exp';
+          
+          document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(obj.budget, type);
+          document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(obj.totalInc, 'inc');
+          document.querySelector(DOMstrings.expensesLabel).textContent = formatNumber(obj.totalExp, 'exp');
+          
+          if (obj.percentage > 0) {
+              document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + '%';
+          } else {
+              document.querySelector(DOMstrings.percentageLabel).textContent = '---';
+          }
+          
+      },
 
         deleteListItem: function(selectorID) {
             var el = document.getElementById(selectorID);
@@ -242,6 +263,21 @@ var UIController = (function() {
 
             fieldsArray[0].focus();
         },
+
+        displayPercentages: function(percentages) {
+            
+          var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
+          
+          nodeListForEach(fields, function(current, index) {
+              
+              if (percentages[index] > 0) {
+                  current.textContent = percentages[index] + '%';
+              } else {
+                  current.textContent = '---';
+              }
+          });
+          
+      },
     }
 
 
