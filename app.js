@@ -9,11 +9,9 @@ var budgetController = (function() {
         this.description = description;
         this.value = value;
         this.percentage = -1;
-        
     };
 
     Expense.prototype.calcPercentage = function(totalIncome) {
-
         if(totalIncome > 0) {
             this.percentage = Math.round((this.value / totalIncome) * 100);
         } else {
@@ -21,12 +19,11 @@ var budgetController = (function() {
         }
     };
 
-	Expense.prototype.getPercentage = function() {
+    Expense.prototype.getPercentage = function() {
         return this.percentage;
     };
 
     var Income = function(id, description, value) {
-
         this.id = id;
         this.description = description;
         this.value = value;
@@ -42,15 +39,9 @@ var budgetController = (function() {
     };
 
     var data = {
-        allItems: {
-            exp: [],
-            inc: []
-        },
-        totals: {
-            exp: 0,
-            inc: 0
-        },
-        budget: 0,
+        allItems: {exp: [], inc: []}, 
+        totals: {exp: 0, inc: 0}, 
+        budget: 0, 
         percentage: -1
     };
 
@@ -58,6 +49,7 @@ var budgetController = (function() {
 
         addItem: function(type, des, val) {
             var newItem, ID;
+
             if(data.allItems[type].length > 0) {
                 ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
             } else {
@@ -94,18 +86,15 @@ var budgetController = (function() {
         },
 
         calculatePercentages: function() {
-
             data.allItems.exp.forEach(function(cur) {
                 cur.calcPercentage(data.totals.inc);
             });
         },
 
         getPercentages: function() {
-
             var allPerc = data.allItems.exp.map(function(cur) {
                 return cur.getPercentage();
         });
-
         return allPerc;
         },
 
@@ -130,10 +119,6 @@ var budgetController = (function() {
                 totalExp: data.totals.exp,
                 percentage: data.percentage,
             }
-        },
-
-        testing: function() {
-            console.log(data.allItems);
         },
 
         addItem: function(type, des, val) {
@@ -184,8 +169,10 @@ var UIController = (function() {
         var numberSplit, int, dec, type;
 
         number = Math.abs(number);
-        number = number.toFixed(2); //returns a string 2 -> 2.00
-        numberSplit = number.split('.'); //returns an array of the split
+        //returns a string 2 --> 2.00
+        number = number.toFixed(2); 
+        //returns an array of the split
+        numberSplit = number.split('.');
         int = numberSplit[0];
         if(int.length > 3) {
             int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
@@ -280,6 +267,7 @@ var UIController = (function() {
       },
     }
 
+    //////////////////////////////////////////////////LEFT OFF HERE//////////////
 
 })();
 
